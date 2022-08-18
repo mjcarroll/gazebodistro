@@ -75,8 +75,6 @@ jobs:
     - name: Windows-only Dependencies [Windows]
       run: |
         mamba env update -n gazebo-ws -f .github/ci/environment.win-64.yaml
-        mamba uninstall 
-
       if: contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
 
     - name: Export compiler variables [Linux]
