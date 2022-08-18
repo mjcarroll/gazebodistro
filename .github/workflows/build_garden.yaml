@@ -73,7 +73,10 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
 
     - name: Windows-only Dependencies [Windows]
-      run: mamba env update -n gazebo-ws -f .github/ci/environment.win-64.yaml
+      run: |
+        mamba env update -n gazebo-ws -f .github/ci/environment.win-64.yaml
+        mamba uninstall 
+
       if: contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
 
     - name: Export compiler variables [Linux]
@@ -124,7 +127,6 @@ jobs:
       if: contains(matrix.os, 'windows') && success()
       shell: cmd /C call {0}
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd workspace
         colcon build ${{ env.COLCON_BUILD_ARGS }}
 
@@ -132,6 +134,5 @@ jobs:
       if: contains(matrix.os, 'windows') && success()
       shell: cmd /C call {0}
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd workspace
         colcon test ${{ env.COLCON_TEST_ARGS }}
