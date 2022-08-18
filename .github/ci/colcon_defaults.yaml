@@ -6,7 +6,6 @@
       "console_cohesion+",
     ],
     "cmake-args": [
-      "-GNinja",
       "--no-warn-unused-cli",
       "-DCMAKE_BUILD_TYPE=Release",
       "-DBUILD_DOCS=OFF",
