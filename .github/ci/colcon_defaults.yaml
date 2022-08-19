@@ -9,6 +9,7 @@
     ],
     "cmake-args": [
       "--no-warn-unused-cli",
+      "-GNinja",
       "-DCMAKE_BUILD_TYPE=Release",
       "-DCMAKE_C_COMPILER_LAUNCHER=buildcache",
       "-DCMAKE_CXX_COMPILER_LAUNCHER=buildcache",
