@@ -92,10 +92,13 @@ jobs:
       shell: bash -l {0}
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
       run: |
+        echo "::group::Install colcon extensions"
         # Make output prettier for github
         python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
+        echo "::endgroup::"
+
+        echo "::group::List installed colcon extensions"
         # Debug output
-        echo "::group::Installed colcon extensions"
         colcon extensions
         echo "::endgroup::"
 
@@ -103,12 +106,15 @@ jobs:
       shell: cmd /C call {0}
       if: contains(matrix.os, 'windows')
       run: |
+        echo "::group::Install colcon extensions"
         # Make output prettier for github
         python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
         # Windows needs the newest colcon-cmake until the next release
         python -m pip install --upgrade --force https://github.com/colcon/colcon-cmake/archive/refs/heads/master.zip
+        echo "::endgroup::"
+
+        echo "::group::List installed colcon extensions"
         # Debug output
-        echo "::group::Installed colcon extensions"
         colcon extensions
         echo "::endgroup::"
 
@@ -131,7 +137,9 @@ jobs:
       shell: bash -l {0}
       run: |
         mkdir -p workspace/src
+        echo "::group::vcs import"
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
+        echo "::endgroup::
 
     - name: Build Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
@@ -155,8 +163,9 @@ jobs:
       shell: cmd /C call {0}
       run: |
         mkdir workspace\src
+        echo "::group::vcs import"
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace\src
-        vcs branch
+        echo "::endgroup::
 
     - name: Build Workspace [Windows]
       if: contains(matrix.os, 'windows') && success()
