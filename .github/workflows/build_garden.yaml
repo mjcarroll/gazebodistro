@@ -31,7 +31,7 @@ jobs:
           - os: windows-latest
             label: win-64
             conda_envs: C:\Miniconda\envs\gazebo-ws
-            cmake_generator: "NMake Makefiles"
+            cmake_generator: "Ninja Multi-Config"
       fail-fast: false
 
     name: '[${{ matrix.label }}@conda]'
