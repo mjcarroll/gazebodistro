@@ -4,12 +4,9 @@ on:
   push:
     branches:
       - master 
-    paths:
-      - collection-garden.yaml
   pull_request:
     paths:
       - collection-garden.yaml
-
   schedule:
   # * is a special character in YAML so you have to quote this string
   # Execute a "nightly" build at 2 AM UTC
