@@ -31,7 +31,7 @@ jobs:
           - os: windows-latest
             label: win-64
             conda_envs: C:\Miniconda\envs\gazebo-ws
-            cmake_generator: "Ninja Multi-Config"
+            cmake_generator: "Ninja"
       fail-fast: false
 
     name: '[${{ matrix.label }}@conda]'
@@ -172,9 +172,6 @@ jobs:
       shell: cmd /C call {0}
       run: |
         cd workspace
-        echo "::group::Workspace Branches"
-        vcs branch
-        echo "::endgroup::"
         colcon build ${{ env.COLCON_BUILD_ARGS }}
 
     - name: Test Workspace [Windows]
