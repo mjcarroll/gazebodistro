@@ -22,13 +22,13 @@ jobs:
         include:
           - os: ubuntu-latest
             label: linux-64
-            conda_envs: /usr/share/miniconda/envs
+            conda_envs: /usr/share/miniconda/envs/gazebo-ws
           - os: macos-latest
             label: macos-64 
-            conda_envs: /usr/local/miniconda/envs
+            conda_envs: /usr/local/miniconda/envs/gazebo-ws
           - os: windows-latest
             label: win-64
-            conda_envs: C:\Miniconda\envs
+            conda_envs: C:\Miniconda\envs\gazebo-ws
       fail-fast: false
 
     name: '[${{ matrix.label }}@conda]'
@@ -86,6 +86,7 @@ jobs:
 
     - name: Colcon dependencies [Linux and macOS]
       shell: bash -l {0}
+      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
       run: |
         # Make output prettier for github
         python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
@@ -94,6 +95,7 @@ jobs:
 
     - name: Colcon dependencies [Windows]
       shell: cmd /C call {0}
+      if: contains(matrix.os, 'windows')
       run: |
         # Make output prettier for github
         python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
