@@ -77,15 +77,21 @@ jobs:
         # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
         conda config --remove channels defaults
         mamba env update -n gazebo-ws -f .github/ci/environment.yaml
-        python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
       if: steps.cache.outputs.cache-hit != 'true'
 
     - name: Windows-only Dependencies [Windows]
       run: |
         mamba env update -n gazebo-ws -f .github/ci/environment.win-64.yaml
+      if: contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
+
+    - name: Colcon dependencies
+      run: |
+        # Make output prettier for github
+        python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
         # Windows needs the newest colcon-cmake until the next release
         python -m pip install --upgrade --force https://github.com/colcon/colcon-cmake/archive/refs/heads/master.zip
-      if: contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
+        # Debub output
+        colcon extensions
 
     - name: Export compiler variables [Linux]
       if: contains(matrix.os, 'ubuntu')
