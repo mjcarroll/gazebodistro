@@ -23,15 +23,12 @@ jobs:
           - os: ubuntu-latest
             label: linux-64
             conda_envs: /usr/share/miniconda/envs/gazebo-ws
-            cmake_generator: "Ninja"
           - os: macos-latest
             label: macos-64 
             conda_envs: /usr/local/miniconda/envs/gazebo-ws
-            cmake_generator: "Ninja"
           - os: windows-2019
             label: win-64
             conda_envs: C:\Miniconda\envs\gazebo-ws
-            cmake_generator: "Ninja"
       fail-fast: false
 
     name: '[${{ matrix.label }}@conda]'
@@ -46,9 +43,8 @@ jobs:
       COLCON_DEFAULTS_FILE: ${{ github.workspace }}/.github/ci/colcon_defaults.yaml
       BUILDCACHE_MAX_CACHE_SIZE: 2000000000                      # optional: Need a bigger cache?
       BUILDCACHE_LOG_FILE: ${{ matrix.label }}.buildcache.log    # optional: include log output
-      BUILDCACHE_DEBUG: 1                                        # optional: debug level, less is more
+      BUILDCACHE_DEBUG: 2                                        # optional: debug level, less is more
       BUILDCACHE_DIRECT_MODE: true                               # optional: Allow direct caching
-      CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
     steps:
     - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v2
@@ -73,7 +69,7 @@ jobs:
     - uses: mikehardy/buildcache-action@v1
       with:
         cache_key: ${{ matrix.label }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
-        upload_buildcache_log: 'true' # optional: 100% cache misses? Find out why
+        upload_buildcache_log: 'false' # optional: 100% cache misses? Find out why
         zero_buildcache_stats: 'true' # optional: lifetime vs per-run stats?
 
     - name: Dependencies
