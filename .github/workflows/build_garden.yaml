@@ -11,19 +11,22 @@ on:
   - cron:  '0 2 * * *' 
 
 env:
-  CACHE_NUMBER: 1
+  CACHE_NUMBER: 0
 
 jobs:
   build:
     strategy:
       matrix:
         include:
-          # - os: ubuntu-latest
-          #   label: linux-64
-          # - os: macos-latest
-          #   label: macos-64 
+          - os: ubuntu-latest
+            label: linux-64
+            conda_envs: foo
+          - os: macos-latest
+            label: macos-64 
+            conda_envs: foo
           - os: windows-latest
             label: win-64
+            conda_envs: C:\Miniconda\envs
       fail-fast: false
 
     name: '[${{ matrix.label }}@conda]'
@@ -31,7 +34,7 @@ jobs:
     env:
       BUILDCACHE_MAX_CACHE_SIZE: 2000000000 # optional: Need a bigger cache?
       BUILDCACHE_LOG_FILE: ${{ matrix.label }}.buildcache.log
-      BUILDCACHE_DEBUG: 1
+      BUILDCACHE_DEBUG: 2
       BUILDCACHE_DIRECT_MODE: true
       VCS_WORKSPACE_FILE: collection-garden.yaml
       COLCON_DEFAULTS_FILE: ${{ github.workspace }}/.github/ci/colcon_defaults.yaml
@@ -55,7 +58,7 @@ jobs:
     - name: Cache conda
       uses: actions/cache@v2
       with:
-        path: ${{ env.CONDA }}/envs
+        path: ${{ matrix.conda_envs }}
         key: ${{ runner.os }}-conda-${{ hashFiles('.github/ci/*.yaml') }}-${{ steps.get-date.outputs.today }}-${{ env.CACHE_NUMBER }}
       id: cache
 
@@ -63,7 +66,7 @@ jobs:
       with:
         cache_key: ${{ matrix.label }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
         upload_buildcache_log: 'true' # optional: 100% cache misses? Find out why
-        zero_buildcache_stats: 'false' # optional: lifetime vs per-run stats?
+        zero_buildcache_stats: 'true' # optional: lifetime vs per-run stats?
 
     - name: Dependencies
       run: |
@@ -75,6 +78,8 @@ jobs:
     - name: Windows-only Dependencies [Windows]
       run: |
         mamba env update -n gazebo-ws -f .github/ci/environment.win-64.yaml
+        # Windows needs the newest colcon-cmake until the next release
+        python -m pip install --upgrade --force https://github.com/colcon/colcon-cmake/archive/refs/heads/master.zip
       if: contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
 
     - name: Export compiler variables [Linux]
@@ -105,7 +110,7 @@ jobs:
         export CC=${{ env.BUILDCACHE_CC }}
         export CXX=${{ env.BUILDCACHE_CXX }}
         cd workspace
-        colcon build ${{ env.COLCON_BUILD_ARGS }}
+        colcon build --cmake-args -GNinja ${{ env.COLCON_BUILD_ARGS }}
 
     - name: Test Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
@@ -125,7 +130,6 @@ jobs:
       if: contains(matrix.os, 'windows') && success()
       shell: cmd /C call {0}
       run: |
-        python -m pip install --upgrade --force https://github.com/colcon/colcon-cmake/archive/refs/heads/master.zip
         cd workspace
         colcon build ${{ env.COLCON_BUILD_ARGS }}
 
