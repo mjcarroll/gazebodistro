@@ -42,8 +42,8 @@ jobs:
       # Things that control build
       COLCON_DEFAULTS_FILE: ${{ github.workspace }}/.github/ci/colcon_defaults.yaml
       BUILDCACHE_MAX_CACHE_SIZE: 2000000000                      # optional: Need a bigger cache?
-      # BUILDCACHE_LOG_FILE: ${{ matrix.label }}.buildcache.log  # optional: include log output
-      # BUILDCACHE_DEBUG: 2                                      # optional: debug level, less is more
+      BUILDCACHE_LOG_FILE: ${{ matrix.label }}.buildcache.log    # optional: include log output
+      BUILDCACHE_DEBUG: 1                                        # optional: debug level, less is more
       BUILDCACHE_DIRECT_MODE: true                               # optional: Allow direct caching
     steps:
     - uses: actions/checkout@v2
@@ -69,7 +69,7 @@ jobs:
     - uses: mikehardy/buildcache-action@v1
       with:
         cache_key: ${{ matrix.label }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
-        upload_buildcache_log: 'false' # optional: 100% cache misses? Find out why
+        upload_buildcache_log: 'true' # optional: 100% cache misses? Find out why
         zero_buildcache_stats: 'true' # optional: lifetime vs per-run stats?
 
     - name: Dependencies
@@ -84,13 +84,22 @@ jobs:
         mamba env update -n gazebo-ws -f .github/ci/environment.win-64.yaml
       if: contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
 
-    - name: Colcon dependencies
+    - name: Colcon dependencies [Linux and macOS]
+      shell: bash -l {0}
+      run: |
+        # Make output prettier for github
+        python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
+        # Debug output
+        colcon extensions
+
+    - name: Colcon dependencies [Windows]
+      shell: cmd /C call {0}
       run: |
         # Make output prettier for github
         python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
         # Windows needs the newest colcon-cmake until the next release
         python -m pip install --upgrade --force https://github.com/colcon/colcon-cmake/archive/refs/heads/master.zip
-        # Debub output
+        # Debug output
         colcon extensions
 
     - name: Export compiler variables [Linux]
@@ -113,8 +122,9 @@ jobs:
       run: |
         mkdir -p workspace/src
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
-
+        vcs branch
     - name: Build Workspace [Linux&macOS]
+
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
       shell: bash -l {0}
       env:
@@ -140,6 +150,7 @@ jobs:
       run: |
         mkdir workspace\src
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace\src
+        vcs branch
 
     - name: Build Workspace [Windows]
       if: contains(matrix.os, 'windows') && success()
