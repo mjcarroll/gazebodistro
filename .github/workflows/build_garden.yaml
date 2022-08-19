@@ -77,6 +77,7 @@ jobs:
         # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
         conda config --remove channels defaults
         mamba env update -n gazebo-ws -f .github/ci/environment.yaml
+        python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
       if: steps.cache.outputs.cache-hit != 'true'
 
     - name: Windows-only Dependencies [Windows]
