@@ -172,6 +172,8 @@ jobs:
       shell: cmd /C call {0}
       run: |
         cd workspace
+        set
+        where cl.exe
         colcon build ${{ env.COLCON_BUILD_ARGS }}
 
     - name: Test Workspace [Windows]
