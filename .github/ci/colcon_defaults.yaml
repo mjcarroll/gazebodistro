@@ -13,11 +13,12 @@
       "-DCMAKE_BUILD_TYPE=Release",
       "-DCMAKE_C_COMPILER_LAUNCHER=buildcache",
       "-DCMAKE_CXX_COMPILER_LAUNCHER=buildcache",
+      "-DCMAKE_VERBOSE_MAKEFILE=ON",
       "-DBUILD_DOCS:BOOL=OFF",
       "-DSKIP_optix:BOOL=ON",
       "-DSKIP_SWIG:BOOL=ON",
       "-DSKIP_PYBIND11:BOOL=ON",
-      "-DUSE_GZ_RECOMMENDED_MSVC_CACHING:BOOL=ON"
+      "-DUSE_GZ_RECOMMENDED_MSVC_CACHING:BOOL=ON",
     ],
     "executor": "sequential",
   },
