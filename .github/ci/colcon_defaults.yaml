@@ -11,6 +11,7 @@
       "-DBUILD_DOCS=OFF",
       "-DSKIP_optix=ON",
       "-DSKIP_SWIG=ON",
+      "-DSKIP_PYBIND11=ON",
       "-DCMAKE_C_COMPILER_LAUNCHER=buildcache",
       "-DCMAKE_CXX_COMPILER_LAUNCHER=buildcache",
     ]
