@@ -139,7 +139,7 @@ jobs:
         mkdir -p workspace/src
         echo "::group::vcs import"
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
-        echo "::endgroup::
+        echo "::endgroup::"
 
     - name: Build Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
@@ -165,7 +165,7 @@ jobs:
         mkdir workspace\src
         echo "::group::vcs import"
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace\src
-        echo "::endgroup::
+        echo "::endgroup::"
 
     - name: Build Workspace [Windows]
       if: contains(matrix.os, 'windows') && success()
