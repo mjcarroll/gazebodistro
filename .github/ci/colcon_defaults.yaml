@@ -8,12 +8,13 @@
     "cmake-args": [
       "--no-warn-unused-cli",
       "-DCMAKE_BUILD_TYPE=Release",
-      "-DBUILD_DOCS=OFF",
-      "-DSKIP_optix=ON",
-      "-DSKIP_SWIG=ON",
-      "-DSKIP_PYBIND11=ON",
       "-DCMAKE_C_COMPILER_LAUNCHER=buildcache",
       "-DCMAKE_CXX_COMPILER_LAUNCHER=buildcache",
+      "-DBUILD_DOCS:BOOL=OFF",
+      "-DSKIP_optix:BOOL=ON",
+      "-DSKIP_SWIG:BOOL=ON",
+      "-DSKIP_PYBIND11:BOOL=ON",
+      "-DUSE_GZ_RECOMMENDED_MSVC_CACHING:BOOL=ON"
     ]
   },
   "test": {
