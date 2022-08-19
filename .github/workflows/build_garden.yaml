@@ -23,12 +23,15 @@ jobs:
           - os: ubuntu-latest
             label: linux-64
             conda_envs: /usr/share/miniconda/envs/gazebo-ws
+            cmake_generator: "Ninja"
           - os: macos-latest
             label: macos-64 
             conda_envs: /usr/local/miniconda/envs/gazebo-ws
+            cmake_generator: "Ninja"
           - os: windows-latest
             label: win-64
             conda_envs: C:\Miniconda\envs\gazebo-ws
+            cmake_generator: "NMake Makefiles"
       fail-fast: false
 
     name: '[${{ matrix.label }}@conda]'
@@ -45,6 +48,7 @@ jobs:
       BUILDCACHE_LOG_FILE: ${{ matrix.label }}.buildcache.log    # optional: include log output
       BUILDCACHE_DEBUG: 1                                        # optional: debug level, less is more
       BUILDCACHE_DIRECT_MODE: true                               # optional: Allow direct caching
+      CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
     steps:
     - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v2
@@ -91,7 +95,9 @@ jobs:
         # Make output prettier for github
         python -m pip install --upgrade --force https://github.com/mjcarroll/colcon-github-actions/archive/refs/heads/master.zip
         # Debug output
+        echo "::group::Installed colcon extensions"
         colcon extensions
+        echo "::endgroup::"
 
     - name: Colcon dependencies [Windows]
       shell: cmd /C call {0}
@@ -102,21 +108,23 @@ jobs:
         # Windows needs the newest colcon-cmake until the next release
         python -m pip install --upgrade --force https://github.com/colcon/colcon-cmake/archive/refs/heads/master.zip
         # Debug output
+        echo "::group::Installed colcon extensions"
         colcon extensions
+        echo "::endgroup::"
 
     - name: Export compiler variables [Linux]
       if: contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
-        echo "BUILDCACHE_CC=x86_64-conda-linux-gnu-gcc" >> $GITHUB_ENV
-        echo "BUILDCACHE_CXX=x86_64-conda-linux-gnu-g++" >> $GITHUB_ENV
+        echo "CC=x86_64-conda-linux-gnu-gcc" >> $GITHUB_ENV
+        echo "CXX=x86_64-conda-linux-gnu-g++" >> $GITHUB_ENV
 
     - name: Export compiler variables [macOS]
       if: contains(matrix.os, 'macos')
       shell: bash -l {0}
       run: |
-        echo "BUILDCACHE_CC=x86_64-apple-darwin13.4.0-clang" >> $GITHUB_ENV
-        echo "BUILDCACHE_CXX=x86_64-apple-darwin13.4.0-clang++" >> $GITHUB_ENV
+        echo "CC=x86_64-apple-darwin13.4.0-clang" >> $GITHUB_ENV
+        echo "CXX=x86_64-apple-darwin13.4.0-clang++" >> $GITHUB_ENV
 
     - name: Checkout Workspace [Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
@@ -124,23 +132,19 @@ jobs:
       run: |
         mkdir -p workspace/src
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
-        vcs branch
-    - name: Build Workspace [Linux&macOS]
 
+    - name: Build Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
       shell: bash -l {0}
-      env:
-        CMAKE_GENERATOR: Ninja
       run: |
-        export CC=${{ env.BUILDCACHE_CC }}
-        export CXX=${{ env.BUILDCACHE_CXX }}
         cd workspace
+        echo "::group::Workspace Branches"
+        vcs branch
+        echo "::endgroup::"
         colcon build ${{ env.COLCON_BUILD_ARGS }}
 
     - name: Test Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
-      env:
-        CMAKE_GENERATOR: Ninja
       shell: bash -l {0}
       run: |
         cd workspace
@@ -159,6 +163,9 @@ jobs:
       shell: cmd /C call {0}
       run: |
         cd workspace
+        echo "::group::Workspace Branches"
+        vcs branch
+        echo "::endgroup::"
         colcon build ${{ env.COLCON_BUILD_ARGS }}
 
     - name: Test Workspace [Windows]
