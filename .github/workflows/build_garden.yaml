@@ -4,7 +4,12 @@ on:
   push:
     branches:
       - master 
+    paths:
+      - collection-garden.yaml
   pull_request:
+    paths:
+      - collection-garden.yaml
+
   schedule:
   # * is a special character in YAML so you have to quote this string
   # Execute a "nightly" build at 2 AM UTC
@@ -20,10 +25,10 @@ jobs:
         include:
           - os: ubuntu-latest
             label: linux-64
-            conda_envs: foo
+            conda_envs: /usr/share/miniconda/envs
           - os: macos-latest
             label: macos-64 
-            conda_envs: foo
+            conda_envs: /usr/local/miniconda/envs
           - os: windows-latest
             label: win-64
             conda_envs: C:\Miniconda\envs
@@ -106,14 +111,18 @@ jobs:
     - name: Build Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
       shell: bash -l {0}
+      env:
+        CMAKE_GENERATOR: Ninja
       run: |
         export CC=${{ env.BUILDCACHE_CC }}
         export CXX=${{ env.BUILDCACHE_CXX }}
         cd workspace
-        colcon build --cmake-args -GNinja ${{ env.COLCON_BUILD_ARGS }}
+        colcon build ${{ env.COLCON_BUILD_ARGS }}
 
     - name: Test Workspace [Linux&macOS]
       if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
+      env:
+        CMAKE_GENERATOR: Ninja
       shell: bash -l {0}
       run: |
         cd workspace
