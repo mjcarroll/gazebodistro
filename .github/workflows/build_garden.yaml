@@ -28,7 +28,7 @@ jobs:
             label: macos-64 
             conda_envs: /usr/local/miniconda/envs/gazebo-ws
             cmake_generator: "Ninja"
-          - os: windows-latest
+          - os: windows-2019
             label: win-64
             conda_envs: C:\Miniconda\envs\gazebo-ws
             cmake_generator: "Ninja"
