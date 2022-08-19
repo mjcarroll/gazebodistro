@@ -10,6 +10,7 @@
       "-DCMAKE_BUILD_TYPE=Release",
       "-DBUILD_DOCS=OFF",
       "-DSKIP_optix=ON",
+      "-DSKIP_SWIG=ON",
       "-DCMAKE_C_COMPILER_LAUNCHER=buildcache",
       "-DCMAKE_CXX_COMPILER_LAUNCHER=buildcache",
     ]
