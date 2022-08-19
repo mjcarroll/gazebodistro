@@ -63,7 +63,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{ matrix.conda_envs }}
-        key: ${{ runner.os }}-conda-${{ hashFiles('.github/ci/enivornment*.yaml') }}-${{ steps.get-date.outputs.today }}-${{ env.CACHE_NUMBER }}
+        key: ${{ runner.os }}-conda-${{ hashFiles('.github/ci/environment*.yaml') }}-${{ steps.get-date.outputs.today }}-${{ env.CACHE_NUMBER }}
       id: cache
 
     - uses: mikehardy/buildcache-action@v1
