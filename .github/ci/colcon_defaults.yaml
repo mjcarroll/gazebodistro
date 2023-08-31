@@ -4,8 +4,7 @@
     "event-handlers": [
       "console_package_list+",
       "console_cohesion+",
-      "console_start_end-",
-      "actions_start_end+",
+      "console_start_end+",
     ],
     "cmake-args": [
       "--no-warn-unused-cli",
