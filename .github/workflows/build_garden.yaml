@@ -23,13 +23,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-2019, macos-latest]
+        collection: [garden, harmonic]
       fail-fast: false
 
-    name: '[${{ matrix.os }}@conda]'
+    name: '[${{ matrix.os }}@${{ matrix.collection }}@conda]'
     runs-on: ${{ matrix.os }}
     env:
       # Workspace file to use for the build
-      VCS_WORKSPACE_FILE: collection-garden.yaml
+      VCS_WORKSPACE_FILE: collection-${{ matrix.collection }} .yaml
       COLCON_BUILD_ARGS: ""
       COLCON_TEST_ARGS: ""
 
