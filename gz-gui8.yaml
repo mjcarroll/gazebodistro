@@ -11,7 +11,7 @@ repositories:
   gz-gui:
     type: git
     url: https://github.com/gazebosim/gz-gui
-    version: main
+    version: gz-gui8
   gz-math:
     type: git
     url: https://github.com/gazebosim/gz-math
@@ -19,7 +19,7 @@ repositories:
   gz-msgs:
     type: git
     url: https://github.com/gazebosim/gz-msgs
-    version: gz-msgs9
+    version: gz-msgs10
   gz-plugin:
     type: git
     url: https://github.com/gazebosim/gz-plugin
@@ -27,7 +27,7 @@ repositories:
   gz-rendering:
     type: git
     url: https://github.com/gazebosim/gz-rendering
-    version: gz-rendering7
+    version: gz-rendering8
   gz-tools:
     type: git
     url: https://github.com/gazebosim/gz-tools
@@ -35,7 +35,7 @@ repositories:
   gz-transport:
     type: git
     url: https://github.com/gazebosim/gz-transport
-    version: gz-transport12
+    version: gz-transport13
   gz-utils:
     type: git
     url: https://github.com/gazebosim/gz-utils

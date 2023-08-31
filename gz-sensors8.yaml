@@ -15,7 +15,7 @@ repositories:
   gz-msgs:
     type: git
     url: https://github.com/gazebosim/gz-msgs
-    version: gz-msgs9
+    version: gz-msgs10
   gz-plugin:
     type: git
     url: https://github.com/gazebosim/gz-plugin
@@ -23,15 +23,15 @@ repositories:
   gz-rendering:
     type: git
     url: https://github.com/gazebosim/gz-rendering
-    version: gz-rendering7
+    version: gz-rendering8
   gz-sensors:
     type: git
     url: https://github.com/gazebosim/gz-sensors
-    version: main
+    version: gz-sensors8
   gz-transport:
     type: git
     url: https://github.com/gazebosim/gz-transport
-    version: gz-transport12
+    version: gz-transport13
   gz-tools:
     type: git
     url: https://github.com/gazebosim/gz-tools
@@ -43,4 +43,4 @@ repositories:
   sdformat:
     type: git
     url: https://github.com/gazebosim/sdformat
-    version: sdf13
+    version: sdf14
