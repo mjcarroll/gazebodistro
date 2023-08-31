@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest, windows-2019, macos-latest]
       fail-fast: false
 
-    name: '[${{ matrix.os }}@${{ matrix.build_type }}@conda]'
+    name: '[${{ matrix.os }}@conda]'
     runs-on: ${{ matrix.os }}
     env:
       # Workspace file to use for the build
