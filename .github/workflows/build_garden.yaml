@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       # Workspace file to use for the build
-      VCS_WORKSPACE_FILE: collection-${{ matrix.collection }} .yaml
+      VCS_WORKSPACE_FILE: collection-${{ matrix.collection }}.yaml
       COLCON_BUILD_ARGS: ""
       COLCON_TEST_ARGS: ""
 
@@ -41,13 +41,13 @@ jobs:
       BUILDCACHE_DEBUG: 2                                        # optional: debug level, less is more
       BUILDCACHE_DIRECT_MODE: true                               # optional: Allow direct caching
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniforge-variant: Mambaforge
         miniforge-version: latest
 
-    - uses: mikehardy/buildcache-action@v1
+    - uses: mikehardy/buildcache-action@v2
       with:
         cache_key: ${{ matrix.label }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
         upload_buildcache_log: 'false' # optional: 100% cache misses? Find out why
