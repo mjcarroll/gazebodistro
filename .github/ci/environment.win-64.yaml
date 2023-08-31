@@ -1,8 +1,0 @@
-name: gazebo-ws
-
-channels:
-  - conda-forge
-
-dependencies:
-  - dlfcn-win32
-  - vs2019_win-64 
