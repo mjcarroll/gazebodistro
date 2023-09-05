@@ -60,14 +60,14 @@ jobs:
         conda config --remove channels defaults
         mamba install cmake compilers make ninja pkg-config colcon-common-extensions
         mamba install cppzmq curl eigen ffmpeg freeimage gdal git glew glfw glib gts jsoncpp libzip protobuf pybind11 qt ruby tinyxml tinyxml2 urdfdom vcstool zeromq
-        mamba install freeglut ogre=1.10.* ogre-next dartsim libzip yaml libprotobuf libcurl libtar
+        mamba install ogre=1.10.* ogre-next dartsim libzip yaml libprotobuf libcurl libtar
 
     - name: Linux-only Dependencies [Linux]
       if: contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
         # See https://github.com/robotology/robotology-superbuild/issues/477
-        mamba install libgl mesalib libuuid
+        mamba install libgl mesalib libuuid freeglut
         mamba install libglvnd-glx-cos6-x86_64 expat-cos6-x86_64 libselinux-cos6-x86_64 libxau-cos6-x86_64 libxcb-cos6-x86_64 libxdamage-cos6-x86_64 libxext-cos6-x86_64 libxfixes-cos6-x86_64 libxxf86vm-cos6-x86_64 mesa-libgl-cos6-x86_64 mesa-libgl-devel-cos6-x86_64 libuuid
 
     - name: Windows-only Dependencies [Windows]
