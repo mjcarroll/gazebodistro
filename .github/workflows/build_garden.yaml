@@ -76,7 +76,7 @@ jobs:
       run: |
         mkdir -p workspace/src
         echo "::group::vcs import"
-        vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
+        pixi run vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
         echo "::endgroup::"
 
     - name: Build Workspace
@@ -85,6 +85,6 @@ jobs:
       run: |
         cd workspace
         echo "::group::Workspace Branches"
-        vcs branch
+        pixi run vcs branch
         echo "::endgroup::"
-        colcon build ${{ env.COLCON_BUILD_ARGS }}
+        pixi run colcon build ${{ env.COLCON_BUILD_ARGS }}
