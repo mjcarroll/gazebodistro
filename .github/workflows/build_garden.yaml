@@ -22,7 +22,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-2019, macos-latest]
+        os: [ubuntu-latest, macos-latest]
         collection: [garden, harmonic]
       fail-fast: false
 
@@ -41,11 +41,7 @@ jobs:
       BUILDCACHE_DEBUG: 2                                        # optional: debug level, less is more
       BUILDCACHE_DIRECT_MODE: true                               # optional: Allow direct caching
     steps:
-    - uses: actions/checkout@v3
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        miniforge-variant: Mambaforge
-        miniforge-version: latest
+    - uses: actions/checkout@v4
 
     - uses: mikehardy/buildcache-action@v2
       with:
@@ -53,29 +49,13 @@ jobs:
         upload_buildcache_log: 'false' # optional: 100% cache misses? Find out why
         zero_buildcache_stats: 'true' # optional: lifetime vs per-run stats?
 
-    - name: Dependencies
-      shell: bash -l {0}
+    - name: Install Pixi
       run: |
-        # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
-        conda config --remove channels defaults
-        mamba install cmake compilers make ninja pkg-config colcon-common-extensions
-        mamba install cppzmq curl eigen ffmpeg freeimage gdal git glew glfw glib gts jsoncpp libzip protobuf pybind11 qt ruby tinyxml tinyxml2 urdfdom vcstool zeromq
-        mamba install ogre=1.10.* ogre-next dartsim libzip yaml libprotobuf libcurl libtar
+        curl -fsSL https://pixi.sh/install.sh | bash
+        echo "/home/runner/.pixi/bin" >> $GITHUB_PATH
 
-    - name: Linux-only Dependencies [Linux]
-      if: contains(matrix.os, 'ubuntu')
-      shell: bash -l {0}
-      run: |
-        # See https://github.com/robotology/robotology-superbuild/issues/477
-        mamba install mesalib libuuid freeglut
-        mamba install libglvnd-glx-cos6-x86_64 expat-cos6-x86_64 libselinux-cos6-x86_64 libxau-cos6-x86_64 libxcb-cos6-x86_64 libxdamage-cos6-x86_64 libxext-cos6-x86_64 libxfixes-cos6-x86_64 libxxf86vm-cos6-x86_64 mesa-libgl-cos6-x86_64 mesa-libgl-devel-cos6-x86_64 libuuid
-
-    - name: Windows-only Dependencies [Windows]
-      if: contains(matrix.os, 'windows')
-      shell: bash -l {0}
-      run: |
-        # Compilation related dependencies
-        mamba install vs2019_win-64 dlfcn-win32 tiny-process-library
+    - name: Install all dependencies
+      run: pixi install
 
     - name: Export compiler variables [Linux]
       if: contains(matrix.os, 'ubuntu')
@@ -91,8 +71,7 @@ jobs:
         echo "CC=x86_64-apple-darwin13.4.0-clang" >> $GITHUB_ENV
         echo "CXX=x86_64-apple-darwin13.4.0-clang++" >> $GITHUB_ENV
 
-    - name: Checkout Workspace [Linux&macOS]
-      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
+    - name: Checkout Workspace
       shell: bash -l {0}
       run: |
         mkdir -p workspace/src
@@ -100,30 +79,12 @@ jobs:
         vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
         echo "::endgroup::"
 
-    - name: Build Workspace [Linux&macOS]
-      if: (contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')) && success()
+    - name: Build Workspace
+      if: success()
       shell: bash -l {0}
       run: |
         cd workspace
         echo "::group::Workspace Branches"
         vcs branch
         echo "::endgroup::"
-        colcon build ${{ env.COLCON_BUILD_ARGS }}
-
-    - name: Checkout Workspace [Windows]
-      if: contains(matrix.os, 'windows')
-      shell: cmd /C call {0}
-      run: |
-        mkdir workspace\src
-        echo "::group::vcs import"
-        vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace\src
-        echo "::endgroup::"
-
-    - name: Build Workspace [Windows]
-      if: contains(matrix.os, 'windows') && success()
-      shell: cmd /C call {0}
-      run: |
-        cd workspace
-        set
-        where cl.exe
         colcon build ${{ env.COLCON_BUILD_ARGS }}
