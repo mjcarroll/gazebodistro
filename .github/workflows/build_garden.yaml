@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        collection: [garden, harmonic]
+        collection: [garden]
       fail-fast: false
 
     name: '[${{ matrix.os }}@${{ matrix.collection }}@conda]'
@@ -81,7 +81,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        collection: [garden, harmonic]
+        collection: [garden]
       fail-fast: false
 
     name: '[${{ matrix.os }}@${{ matrix.collection }}@conda]'
@@ -110,6 +110,7 @@ jobs:
     - name: Install Pixi
       run: |
         iwr -useb https://pixi.sh/install.ps1 | iex
+        Add-Content $env:GITHUB_PATH "C:\Users\runneradmin\AppData\Local\pixi\bin"
 
     - name: Install all dependencies
       run: |
