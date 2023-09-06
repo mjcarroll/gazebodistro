@@ -39,6 +39,7 @@ dartsim = "6.13.0.*"
 eigen = "3.4.0.*"
 
 [build-dependencies]
+compilers = "1.6.0.*"
 ninja = "1.11.1.*"
 cmake = "3.27.4.*"
 pkgconfig = "1.5.5.*"

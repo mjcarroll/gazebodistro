@@ -55,21 +55,9 @@ jobs:
         echo "/home/runner/.pixi/bin" >> $GITHUB_PATH
 
     - name: Install all dependencies
-      run: pixi install
-
-    - name: Export compiler variables [Linux]
-      if: contains(matrix.os, 'ubuntu')
-      shell: bash -l {0}
       run: |
-        echo "CC=x86_64-conda-linux-gnu-gcc" >> $GITHUB_ENV
-        echo "CXX=x86_64-conda-linux-gnu-g++" >> $GITHUB_ENV
-
-    - name: Export compiler variables [macOS]
-      if: contains(matrix.os, 'macos')
-      shell: bash -l {0}
-      run: |
-        echo "CC=x86_64-apple-darwin13.4.0-clang" >> $GITHUB_ENV
-        echo "CXX=x86_64-apple-darwin13.4.0-clang++" >> $GITHUB_ENV
+        pixi install
+        pixi info
 
     - name: Checkout Workspace
       shell: bash -l {0}
@@ -77,6 +65,62 @@ jobs:
         mkdir -p workspace/src
         echo "::group::vcs import"
         pixi run vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace/src
+        echo "::endgroup::"
+
+    - name: Build Workspace
+      if: success()
+      shell: bash -l {0}
+      run: |
+        cd workspace
+        echo "::group::Workspace Branches"
+        pixi run vcs branch
+        echo "::endgroup::"
+        pixi run colcon build ${{ env.COLCON_BUILD_ARGS }}
+
+  build_win:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        collection: [garden, harmonic]
+      fail-fast: false
+
+    name: '[${{ matrix.os }}@${{ matrix.collection }}@conda]'
+    runs-on: ${{ matrix.os }}
+    env:
+      # Workspace file to use for the build
+      VCS_WORKSPACE_FILE: collection-${{ matrix.collection }}.yaml
+      COLCON_BUILD_ARGS: ""
+      COLCON_TEST_ARGS: ""
+
+      # Things that control build
+      COLCON_DEFAULTS_FILE: ${{ github.workspace }}/.github/ci/colcon_defaults.yaml
+      BUILDCACHE_MAX_CACHE_SIZE: 2000000000                      # optional: Need a bigger cache?
+      BUILDCACHE_LOG_FILE: ${{ matrix.label }}.buildcache.log    # optional: include log output
+      BUILDCACHE_DEBUG: 2                                        # optional: debug level, less is more
+      BUILDCACHE_DIRECT_MODE: true                               # optional: Allow direct caching
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: mikehardy/buildcache-action@v2
+      with:
+        cache_key: ${{ matrix.label }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+        upload_buildcache_log: 'false' # optional: 100% cache misses? Find out why
+        zero_buildcache_stats: 'true' # optional: lifetime vs per-run stats?
+
+    - name: Install Pixi
+      run: |
+        iwr -useb https://pixi.sh/install.ps1 | iex
+
+    - name: Install all dependencies
+      run: |
+        pixi install
+        pixi info
+
+    - name: Checkout Workspace
+      run: |
+        mkdir workspace\src
+        echo "::group::vcs import"
+        pixi run vcs import --input ${{ env.VCS_WORKSPACE_FILE }} --shallow workspace\src
         echo "::endgroup::"
 
     - name: Build Workspace
