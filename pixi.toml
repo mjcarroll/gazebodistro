@@ -16,6 +16,11 @@ clean = {cmd = "rm -rf build install log"}
 [dependencies]
 eigen = "3.4.0.*"
 python = "3.11.*"
+freeimage = "3.18.0.*"
+gdal = "3.7.3.*"
+gts = "0.7.6.*"
+tinyxml2 = "9.0.0.*"
+assimp = "5.3.1.*"
 
 [build-dependencies]
 ninja = "1.11.1.*"
