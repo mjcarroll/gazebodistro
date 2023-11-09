@@ -4034,6 +4034,26 @@ package:
   noarch: python
   size: 273692
   timestamp: 1689598624555
+- platform: win-64
+  name: dlfcn-win32
+  version: 1.3.0
+  category: main
+  manager: conda
+  dependencies:
+  - vc >=14.1,<15.0a0
+  - vs2015_runtime >=14.16.27012
+  url: https://conda.anaconda.org/conda-forge/win-64/dlfcn-win32-1.3.0-h0e60522_0.tar.bz2
+  hash:
+    md5: fbf77c7d2c921560c41f58dc0454bacf
+    sha256: adb0ded5a6a62bcaa74154b411f62682567b3a2208ff2f057818a578f4c4f5f7
+  build: h0e60522_0
+  arch: x86_64
+  subdir: win-64
+  build_number: 0
+  license: MIT
+  license_family: MIT
+  size: 16600
+  timestamp: 1614547981167
 - platform: linux-64
   name: docutils
   version: 0.20.1
@@ -6228,6 +6248,233 @@ package:
   license: GPL-2.0-or-later and LGPL-2.1-or-later
   size: 117936049
   timestamp: 1692713512397
+- platform: linux-64
+  name: glib
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - gettext >=0.21.1,<1.0a0
+  - glib-tools 2.78.1 hfc55251_0
+  - libgcc-ng >=12
+  - libglib 2.78.1 hebfc3b9_0
+  - libstdcxx-ng >=12
+  - libzlib >=1.2.13,<1.3.0a0
+  - python *
+  url: https://conda.anaconda.org/conda-forge/linux-64/glib-2.78.1-hfc55251_0.conda
+  hash:
+    md5: 43c633c015a361610ee4db2e95f8a517
+    sha256: fc052d470898ce222d1087815f3c16a8d32a3ef1afec06c39b892bea2d4b164a
+  build: hfc55251_0
+  arch: x86_64
+  subdir: linux-64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 488885
+  timestamp: 1699278102058
+- platform: linux-aarch64
+  name: glib
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - gettext >=0.21.1,<1.0a0
+  - glib-tools 2.78.1 hd84c7bf_0
+  - libgcc-ng >=12
+  - libglib 2.78.1 h0464669_0
+  - libstdcxx-ng >=12
+  - libzlib >=1.2.13,<1.3.0a0
+  - python *
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/glib-2.78.1-hd84c7bf_0.conda
+  hash:
+    md5: a0f01dc2d16c8fa6636803821270c283
+    sha256: c55073b4f246942a9751280a03b65d09ed6b9d465e64c9e2f1a842c37c93b47f
+  build: hd84c7bf_0
+  arch: aarch64
+  subdir: linux-aarch64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 499070
+  timestamp: 1699277879625
+- platform: osx-64
+  name: glib
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - __osx >=10.9
+  - gettext >=0.21.1,<1.0a0
+  - glib-tools 2.78.1 hf4d7fad_0
+  - libcxx >=16.0.6
+  - libglib 2.78.1 h6d9ecee_0
+  - libzlib >=1.2.13,<1.3.0a0
+  - python *
+  url: https://conda.anaconda.org/conda-forge/osx-64/glib-2.78.1-hf4d7fad_0.conda
+  hash:
+    md5: 9ec0d72a2fa4e3fdd6d62629fbad7b2b
+    sha256: 00e5e6808c62fd4377bf7d46777d43a48145418eef26ddbf766258cf35e822e4
+  build: hf4d7fad_0
+  arch: x86_64
+  subdir: osx-64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 488466
+  timestamp: 1699278255109
+- platform: osx-arm64
+  name: glib
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - __osx >=10.9
+  - gettext >=0.21.1,<1.0a0
+  - glib-tools 2.78.1 h9e231a4_0
+  - libcxx >=16.0.6
+  - libglib 2.78.1 hd9b11f9_0
+  - libzlib >=1.2.13,<1.3.0a0
+  - python *
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/glib-2.78.1-h9e231a4_0.conda
+  hash:
+    md5: a5374b9df790390353db4269922ae07d
+    sha256: 082379a9f4d2dc40b6da735eef75a40b712078c87513f5fd687b8f4b3f21cf4d
+  build: h9e231a4_0
+  arch: aarch64
+  subdir: osx-arm64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 487806
+  timestamp: 1699278267901
+- platform: win-64
+  name: glib
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - gettext >=0.21.1,<1.0a0
+  - glib-tools 2.78.1 h12be248_0
+  - libglib 2.78.1 he8f3873_0
+  - libzlib >=1.2.13,<1.3.0a0
+  - python *
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  url: https://conda.anaconda.org/conda-forge/win-64/glib-2.78.1-h12be248_0.conda
+  hash:
+    md5: 55a9176ace9721d0b89cbf99f78e6b04
+    sha256: 841ec811330ff4e1f8c30a993ec536778a7332423c9785af69a2b77568b32056
+  build: h12be248_0
+  arch: x86_64
+  subdir: win-64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 504205
+  timestamp: 1699278644577
+- platform: linux-64
+  name: glib-tools
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - libgcc-ng >=12
+  - libglib 2.78.1 hebfc3b9_0
+  - libstdcxx-ng >=12
+  - libzlib >=1.2.13,<1.3.0a0
+  url: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.78.1-hfc55251_0.conda
+  hash:
+    md5: 5b4fe75a68cbb95350f47bb9a707b53b
+    sha256: b1514f0372ff4d7bd2d87001c881c7ee7fc9e28e4e8444ff17dbbea60dd8c9a6
+  build: hfc55251_0
+  arch: x86_64
+  subdir: linux-64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 111722
+  timestamp: 1699278057218
+- platform: linux-aarch64
+  name: glib-tools
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - libgcc-ng >=12
+  - libglib 2.78.1 h0464669_0
+  - libstdcxx-ng >=12
+  - libzlib >=1.2.13,<1.3.0a0
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/glib-tools-2.78.1-hd84c7bf_0.conda
+  hash:
+    md5: ea996b22e2149daad4c0956b8d521ac9
+    sha256: 0b9af9b1a14c8101fbb3d7906dfe179846b81c8080be846ab01326668410d5ae
+  build: hd84c7bf_0
+  arch: aarch64
+  subdir: linux-aarch64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 121147
+  timestamp: 1699277840207
+- platform: osx-64
+  name: glib-tools
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - __osx >=10.9
+  - libcxx >=16.0.6
+  - libglib 2.78.1 h6d9ecee_0
+  - libzlib >=1.2.13,<1.3.0a0
+  url: https://conda.anaconda.org/conda-forge/osx-64/glib-tools-2.78.1-hf4d7fad_0.conda
+  hash:
+    md5: be4782cc6efc35b7ccbe38fedf33d6d9
+    sha256: e76466f767a23ca054b3dcfdab56f0ea4aa1a9e5f8d0c1b6a62826b2144e564e
+  build: hf4d7fad_0
+  arch: x86_64
+  subdir: osx-64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 97019
+  timestamp: 1699278177134
+- platform: osx-arm64
+  name: glib-tools
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - __osx >=10.9
+  - libcxx >=16.0.6
+  - libglib 2.78.1 hd9b11f9_0
+  - libzlib >=1.2.13,<1.3.0a0
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/glib-tools-2.78.1-h9e231a4_0.conda
+  hash:
+    md5: be84d40c3b9d17f553618abffd6150a2
+    sha256: 30b0c3604782d547eac292e79c080565cac257f13f47e81aeb78515bbb8aba2f
+  build: h9e231a4_0
+  arch: aarch64
+  subdir: osx-arm64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 97736
+  timestamp: 1699278208875
+- platform: win-64
+  name: glib-tools
+  version: 2.78.1
+  category: main
+  manager: conda
+  dependencies:
+  - libglib 2.78.1 he8f3873_0
+  - libzlib >=1.2.13,<1.3.0a0
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  url: https://conda.anaconda.org/conda-forge/win-64/glib-tools-2.78.1-h12be248_0.conda
+  hash:
+    md5: 7d9280579328b01cddbb1c4e91ca2df1
+    sha256: c0b909c886088dac3f2224c8bd555ad0ceddd6835a3724f50dd4977ff4cdd93a
+  build: h12be248_0
+  arch: x86_64
+  subdir: win-64
+  build_number: 0
+  license: LGPL-2.1-or-later
+  size: 144991
+  timestamp: 1699278600098
 - platform: linux-64
   name: gts
   version: 0.7.6
